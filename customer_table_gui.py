@@ -26,6 +26,7 @@ class CustomerTableGui:
         tab_four = TabFour(self.notebook)
         self.notebook.add(tab_four.frame, text="Delete Customer")
 
+
     def pack(self):
         self.notebook.pack(expand=1, fill="both")
 
@@ -318,5 +319,8 @@ class TabFour:
 
     def clear_entries(self):
         self.customer_id_entry.delete(0, "end")
+
+
+
 
         

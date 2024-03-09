@@ -24,6 +24,13 @@ class PaymentTableGui:
         tab_three = TabThree(self.notebook)
         self.notebook.add(tab_three.frame, text="Payments by Customer")
 
+        tab_four = TabFour(self.notebook)
+        self.notebook.add(tab_four.frame, text="Update Payment")
+
+        tab_five = TabFive(self.notebook)
+        self.notebook.add(tab_five.frame, text="Delete Payment")
+
+
     def pack(self):
         self.notebook.pack(expand=1, fill="both")
 
@@ -168,3 +175,97 @@ class TabThree:
     def clear_tree(self):
         for i in self.tree.get_children():
             self.tree.delete(i)
+
+class TabFour:
+    def __init__(self, parent):
+        self.payment_id_entry = None
+        self.customer_id_entry = None
+        self.date_entry = None
+        self.amount_entry = None
+        self.frame = ctk.CTkFrame(parent)
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.create_labels()
+        self.create_entries()
+        self.create_buttons()
+
+    def create_labels(self):
+        payment_id_label = ctk.CTkLabel(self.frame, text="Payment ID:")
+        payment_id_label.grid(row=0, column=0, sticky="w")
+
+        customer_id_label = ctk.CTkLabel(self.frame, text="Customer ID:")
+        customer_id_label.grid(row=1, column=0, sticky="w")
+
+        date_label = ctk.CTkLabel(self.frame, text="Date:")
+        date_label.grid(row=2, column=0, sticky="w")
+
+        amount_label = ctk.CTkLabel(self.frame, text="Amount:")
+        amount_label.grid(row=3, column=0, sticky="w")
+
+    def create_entries(self):
+        self.payment_id_entry = ctk.CTkEntry(self.frame)
+        self.payment_id_entry.grid(row=0, column=1)
+
+        self.customer_id_entry = ctk.CTkEntry(self.frame)
+        self.customer_id_entry.grid(row=1, column=1)
+
+        self.date_entry = ctk.CTkEntry(self.frame)
+        self.date_entry.grid(row=2, column=1)
+
+        self.amount_entry = ctk.CTkEntry(self.frame)
+        self.amount_entry.grid(row=3, column=1)
+
+    def create_buttons(self):
+        update_button = ctk.CTkButton(self.frame, text="Update Payment", command=self.update_payment)
+        update_button.grid(row=4, column=0, columnspan=2)
+
+    def update_payment(self):
+        payment_table = PaymentTable()
+        payment_table.connect()
+        payment_table.update_payment(self.payment_id_entry.get(), self.customer_id_entry.get(), self.date_entry.get(), self.amount_entry.get())
+        payment_table.disconnect()
+
+        self.clear_entries()
+
+    def clear_entries(self):
+        self.payment_id_entry.delete(0, "end")
+        self.customer_id_entry.delete(0, "end")
+        self.date_entry.delete(0, "end")
+        self.amount_entry.delete(0, "end")
+
+class TabFive:
+    def __init__(self, parent):
+        self.payment_id_entry = None
+        self.frame = ctk.CTkFrame(parent)
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.create_labels()
+        self.create_entries()
+        self.create_buttons()
+
+    def create_labels(self):
+        payment_id_label = ctk.CTkLabel(self.frame, text="Payment ID:")
+        payment_id_label.grid(row=0, column=0, sticky="w")
+
+    def create_entries(self):
+        self.payment_id_entry = ctk.CTkEntry(self.frame)
+        self.payment_id_entry.grid(row=0, column=1)
+
+    def create_buttons(self):
+        delete_button = ctk.CTkButton(self.frame, text="Delete Payment", command=self.delete_payment)
+        delete_button.grid(row=1, column=0, columnspan=2)
+
+    def delete_payment(self):
+        payment_table = PaymentTable()
+        payment_table.connect()
+        payment_table.delete_payment(self.payment_id_entry.get())
+        payment_table.disconnect()
+
+        self.clear_entries()
+
+    def clear_entries(self):
+        self.payment_id_entry.delete(0, "end")
+
+

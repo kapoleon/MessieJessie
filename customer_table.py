@@ -91,3 +91,23 @@ class CustomerTable(BaseTable):
             print("All customers deleted successfully!")
         except Exception as e:
             print(f"Error deleting all customers: {e}")
+
+    def get_customer_by_name(self, first_name, last_name):
+        try:
+            self.connect()
+            self.cursor.execute("""
+                SELECT * FROM customer WHERE first_name = ? AND last_name = ?
+            """, (first_name, last_name))
+            customer = self.cursor.fetchone()
+            return customer
+        except Exception as e:
+            print(f"Error getting customer: {e}")
+
+
+
+
+
+
+
+
+

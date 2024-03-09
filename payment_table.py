@@ -89,3 +89,45 @@ class PaymentTable(BaseTable):
             print("Payment deleted successfully!")
         except Exception as e:
             print(f"Error deleting payment: {e}")
+
+    def delete_all_payments(self):
+        try:
+            self.connect()
+            self.cursor.execute("""
+                DELETE FROM payment
+            """)
+            self.conn.commit()
+            print("All payments deleted successfully!")
+        except Exception as e:
+            print(f"Error deleting all payments: {e}")
+
+    def get_payments_by_customer_name(self, first_name, last_name):
+        customer_table = CustomerTable()
+        customer_table.connect()
+        customer = customer_table.get_customer_by_name(first_name, last_name)
+        customer_table.disconnect()
+
+        if customer:
+            payments = self.get_payments_by_customer(customer[0])
+            return payments
+        else:
+            return None
+
+    def get_total_payments_by_customer(self, customer_id):
+        payments = self.get_payments_by_customer(customer_id)
+        total = 0
+        for payment in payments:
+            total += payment[3]
+        return total
+
+    def get_total_payments_by_customer_name(self, first_name, last_name):
+        customer_table = CustomerTable()
+        customer_table.connect()
+        customer = customer_table.get_customer_by_name(first_name, last_name)
+        customer_table.disconnect()
+
+        if customer:
+            total = self.get_total_payments_by_customer(customer[0])
+            return total
+        else:
+            return None
