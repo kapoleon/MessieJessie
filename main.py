@@ -5,13 +5,15 @@ from customer_table import CustomerTable
 from customer_table_gui import CustomerTableGui
 from payment_table import PaymentTable
 from payment_table_gui import PaymentTableGui
+from schedule_table import ScheduleTable
+from schedule_table_gui import ScheduleTableGui
 
 
 class MainApplication(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Messie Jessie's Cleaning Service")
-        self.geometry("1000x600")
+        self.geometry("400x200")
         self.resizable(False, False)
 
         self.create_widgets()
@@ -31,12 +33,19 @@ class MainApplication(ctk.CTk):
         payment_button = ctk.CTkButton(self, text="Payment Table", command=self.open_payment_table)
         payment_button.grid(row=1, column=1, padx=5, pady=5, sticky="nsew")
 
+        schedule_button = ctk.CTkButton(self, text="Schedule Table", command=self.open_schedule_table)
+        schedule_button.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
+
     def open_customer_table(self):
         window = CustomerTableGui(self)
         window.grab_set()
 
     def open_payment_table(self):
         window = PaymentTableGui(self)
+        window.grab_set()
+
+    def open_schedule_table(self):
+        window = ScheduleTableGui(self)
         window.grab_set()
 
     def run(self):
